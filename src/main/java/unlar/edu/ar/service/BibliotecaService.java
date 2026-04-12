@@ -26,8 +26,8 @@ public class BibliotecaService {
     // Registrar préstamo
     public void registrarPrestamo(String isbn, String legajo)
             throws LibroNoDisponibleException,
-                   EstudianteNoEncontradoException,
-                   LimitePrestamosExcedidoException {
+            EstudianteNoEncontradoException,
+            LimitePrestamosExcedidoException {
 
         // Buscar libro
         Libro libro = catalogo.stream()
@@ -60,8 +60,7 @@ public class BibliotecaService {
                 libro,
                 estudiante,
                 LocalDate.now(),
-                null
-        );
+                null);
 
         prestamosActivos.add(prestamo);
         libro.setDisponible(false);
@@ -83,8 +82,7 @@ public class BibliotecaService {
 
         long dias = ChronoUnit.DAYS.between(
                 prestamo.getFechaPrestamo(),
-                prestamo.getFechaDevolucion()
-        );
+                prestamo.getFechaDevolucion());
 
         prestamosActivos.remove(prestamo);
         prestamo.getLibro().setDisponible(true);
@@ -117,5 +115,20 @@ public class BibliotecaService {
         prestamosActivos.stream()
                 .filter(p -> p.getEstudiante().getLegajo().equals(legajo))
                 .forEach(System.out::println);
+    }
+
+    //lista completa de libros
+    public List<Libro> getCatalogo() {
+        return catalogo;
+    }
+
+    //todos los estudiantes registrados
+    public Collection<Estudiante> getEstudiantes() {
+        return estudiantes.values();
+    }
+
+    //todos los préstamos que existen en el sistema
+    public Set<Prestamo> getPrestamosActivos() {
+        return prestamosActivos;
     }
 }

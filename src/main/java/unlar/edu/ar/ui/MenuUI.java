@@ -26,6 +26,9 @@ public class MenuUI {
             System.out.println("3. Registrar Préstamo");
             System.out.println("4. Registrar Devolución (y ver multa)");
             System.out.println("5. Listar Préstamos de un Estudiante");
+            System.out.println("6. Listar Catálogo Completo");
+            System.out.println("7. Listar Estudiantes Registrados");
+            System.out.println("8. Ver Todos los Préstamos Activos");
             System.out.println("0. Salir");
             System.out.println("========================================");
             System.out.print("Seleccione una opción: ");
@@ -40,9 +43,8 @@ public class MenuUI {
                         System.out.print("Nombre: "); String nom = sc.nextLine();
                         System.out.print("Carrera: "); String carrera = sc.nextLine();
                         System.out.print("Email: "); String email = sc.nextLine();
-                        
                         bibliotecaService.agregarEstudiante(new Estudiante(leg, nom, carrera, email));
-                        System.out.println("✅ Estudiante registrado con éxito.");
+                        System.out.println("✅ Estudiante registrado.");
                         break;
 
                     case 2:
@@ -50,59 +52,56 @@ public class MenuUI {
                         System.out.print("ISBN: "); String isbn = sc.nextLine();
                         System.out.print("Título: "); String titulo = sc.nextLine();
                         System.out.print("Autor: "); String autor = sc.nextLine();
-                        System.out.print("Año de publicación: "); 
-                        int anio = Integer.parseInt(sc.nextLine());
-                        
-                        // Pasamos true por defecto porque un libro nuevo entra disponible
+                        System.out.print("Año: "); int anio = Integer.parseInt(sc.nextLine());
                         bibliotecaService.agregarLibro(new Libro(isbn, titulo, autor, anio, true));
-                        System.out.println("✅ Libro agregado al catálogo.");
+                        System.out.println("✅ Libro agregado.");
                         break;
 
                     case 3:
-                        System.out.println("\n--- NUEVO PRÉSTAMO ---");
-                        System.out.print("ISBN del libro: "); String isbnPrestamo = sc.nextLine();
-                        System.out.print("Legajo del alumno: "); String legajoPrestamo = sc.nextLine();
-                        
-                        // Ojo acá: el service de Walter recibe primero ISBN y después Legajo
-                        bibliotecaService.registrarPrestamo(isbnPrestamo, legajoPrestamo);
-                        System.out.println("✅ Préstamo registrado correctamente.");
+                        System.out.println("\n--- REGISTRAR PRÉSTAMO ---");
+                        System.out.print("ISBN del libro: "); String iPres = sc.nextLine();
+                        System.out.print("Legajo del alumno: "); String lPres = sc.nextLine();
+                        bibliotecaService.registrarPrestamo(iPres, lPres);
+                        System.out.println("✅ Préstamo realizado.");
                         break;
 
                     case 4:
-                        System.out.println("\n--- DEVOLUCIÓN DE LIBRO ---");
-                        System.out.print("Ingrese el ISBN del libro a devolver: "); 
-                        String isbnDev = sc.nextLine();
-                        
-                        double multa = bibliotecaService.registrarDevolucion(isbnDev);
-                        System.out.println("✅ Libro devuelto.");
-                        if (multa > 0) {
-                            System.out.println("⚠️ Atención: El alumno tiene una multa de $" + multa);
-                        } else {
-                            System.out.println("No hay multas pendientes para esta devolución.");
-                        }
+                        System.out.println("\n--- DEVOLUCIÓN ---");
+                        System.out.print("ISBN del libro: "); String iDev = sc.nextLine();
+                        double multa = bibliotecaService.registrarDevolucion(iDev);
+                        System.out.println("✅ Devolución procesada.");
+                        if (multa > 0) System.out.println("⚠️ Multa a cobrar: $" + multa);
                         break;
 
                     case 5:
-                        System.out.println("\n--- CONSULTA DE PRÉSTAMOS ---");
-                        System.out.print("Ingrese el Legajo del alumno: "); 
-                        String legBusqueda = sc.nextLine();
-                        
-                        System.out.println("Préstamos activos:");
-                        bibliotecaService.listarPrestamosPorEstudiante(legBusqueda);
+                        System.out.print("\nLegajo del alumno: "); String lBus = sc.nextLine();
+                        bibliotecaService.listarPrestamosPorEstudiante(lBus);
+                        break;
+
+                    case 6:
+                        System.out.println("\n--- CATÁLOGO ---");
+                        bibliotecaService.getCatalogo().forEach(System.out::println);
+                        break;
+
+                    case 7:
+                        System.out.println("\n--- ESTUDIANTES ---");
+                        bibliotecaService.getEstudiantes().forEach(System.out::println);
+                        break;
+
+                    case 8:
+                        System.out.println("\n--- PRÉSTAMOS GLOBALES ---");
+                        bibliotecaService.getPrestamosActivos().forEach(System.out::println);
                         break;
 
                     case 0:
-                        System.out.println("Cerrando sistema... ¡Hasta luego!");
+                        System.out.println("Saliendo...");
                         break;
 
                     default:
-                        System.out.println("❌ Opción no válida. Intente nuevamente.");
+                        System.out.println("❌ Opción inválida.");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("❌ ERROR: Por favor, ingrese un número válido.");
             } catch (Exception e) {
-                // Atrapa tus excepciones personalizadas (EstudianteNoEncontrado, etc.)
-                System.out.println("⚠️ AVISO: " + e.getMessage());
+                System.out.println("⚠️ Error: " + e.getMessage());
             }
         }
         sc.close();
