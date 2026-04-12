@@ -1,7 +1,5 @@
 package unlar.edu.ar.model;
 
-import java.time.LocalDate;
-
 public class Estudiante {
     // Atributos de la clase Estudiante
     private String legajo;
