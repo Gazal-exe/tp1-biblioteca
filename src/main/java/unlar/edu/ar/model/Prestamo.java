@@ -65,4 +65,17 @@ public class Prestamo {
                 ", Fecha de Devolución=" + (fechaDevolucion != null ? fechaDevolucion : "Aún no devuelto") +
                 '}';
     }
+
+    @Override
+public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Prestamo)) return false;
+    Prestamo prestamo = (Prestamo) o;
+    return libro.getISBN().equals(prestamo.libro.getISBN());
+}
+
+@Override
+public int hashCode() {
+    return libro.getISBN().hashCode();
+}
 }
