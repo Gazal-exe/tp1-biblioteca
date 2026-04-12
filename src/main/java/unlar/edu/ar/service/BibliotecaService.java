@@ -46,7 +46,7 @@ public class BibliotecaService {
             throw new EstudianteNoEncontradoException("El estudiante no existe.");
         }
 
-        // Verificar límite de 3 préstamos
+        // Verificar limite de 3 prestamos
         long cantidad = prestamosActivos.stream()
                 .filter(p -> p.getEstudiante().getLegajo().equals(legajo))
                 .count();
@@ -55,7 +55,7 @@ public class BibliotecaService {
             throw new LimitePrestamosExcedidoException("Máximo 3 préstamos permitidos.");
         }
 
-        // Crear préstamo
+        // Crear prestamo
         Prestamo prestamo = new Prestamo(
                 libro,
                 estudiante,
@@ -66,7 +66,7 @@ public class BibliotecaService {
         libro.setDisponible(false);
     }
 
-    // Registrar devolución
+    // Registrar devolucion
     public double registrarDevolucion(String isbn) {
 
         Prestamo prestamo = prestamosActivos.stream()
@@ -94,7 +94,7 @@ public class BibliotecaService {
         return 0;
     }
 
-    // Método recursivo
+    // Metodo recursivo
     public double calcularMulta(int diasRetraso, double valorLibro) {
 
         if (diasRetraso <= 0) {
@@ -109,7 +109,7 @@ public class BibliotecaService {
                 + calcularMulta(diasRetraso - 1, valorLibro);
     }
 
-    // Listar préstamos por estudiante
+    // listar prestamos por estudiante
     public void listarPrestamosPorEstudiante(String legajo) {
 
         prestamosActivos.stream()
@@ -117,18 +117,25 @@ public class BibliotecaService {
                 .forEach(System.out::println);
     }
 
-    //lista completa de libros
+    // lista completa de libros
     public List<Libro> getCatalogo() {
         return catalogo;
     }
 
-    //todos los estudiantes registrados
+    // lista completa de estudiantes registrados
     public Collection<Estudiante> getEstudiantes() {
         return estudiantes.values();
     }
 
-    //todos los préstamos que existen en el sistema
+    // lista completa de prestamos que existen en el sistema
     public Set<Prestamo> getPrestamosActivos() {
         return prestamosActivos;
     }
+
+    // busqueda parcial por titulos (punto 2.4)
+public List<Libro> buscarLibrosPorTitulo(String query) {
+    return catalogo.stream()
+            .filter(l -> l.getTitulo().toLowerCase().contains(query.toLowerCase()))
+            .toList(); 
+}
 }
