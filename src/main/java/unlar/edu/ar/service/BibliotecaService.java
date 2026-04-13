@@ -133,9 +133,37 @@ public class BibliotecaService {
     }
 
     // busqueda parcial por titulos (punto 2.4)
-public List<Libro> buscarLibrosPorTitulo(String query) {
-    return catalogo.stream()
-            .filter(l -> l.getTitulo().toLowerCase().contains(query.toLowerCase()))
-            .toList(); 
-}
+    public List<Libro> buscarLibrosPorTitulo(String query) {
+        return catalogo.stream()
+                .filter(l -> l.getTitulo().toLowerCase().contains(query.toLowerCase()))
+                .toList();
+    }
+
+    // Método para pruebas: permite indicar la fecha de devolución manualmente
+    public double registrarDevolucionConFecha(String isbn, LocalDate fechaDevolucion) {
+
+        Prestamo prestamo = prestamosActivos.stream()
+                .filter(p -> p.getLibro().getISBN().equals(isbn))
+                .findFirst()
+                .orElse(null);
+
+        if (prestamo == null) {
+            return 0;
+        }
+
+        prestamo.setFechaDevolucion(fechaDevolucion);
+
+        long dias = ChronoUnit.DAYS.between(
+                prestamo.getFechaPrestamo(),
+                prestamo.getFechaDevolucion());
+
+        prestamosActivos.remove(prestamo);
+        prestamo.getLibro().setDisponible(true);
+
+        if (dias > 0) {
+            return calcularMulta((int) dias, 1000);
+        }
+
+        return 0;
+    }
 }

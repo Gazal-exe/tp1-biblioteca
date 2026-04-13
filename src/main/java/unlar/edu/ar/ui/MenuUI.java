@@ -4,6 +4,7 @@ import unlar.edu.ar.service.BibliotecaService;
 import unlar.edu.ar.model.Libro;
 import unlar.edu.ar.model.Estudiante;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -79,13 +80,21 @@ public class MenuUI {
                         break;
 
                     case 4:
+
                         System.out.println("\n--- DEVOLUCION ---");
                         System.out.print("ISBN del libro: ");
                         String iDev = sc.nextLine();
-                        double multa = bibliotecaService.registrarDevolucion(iDev);
+
+                        System.out.print("Fecha de devolución (AAAA-MM-DD): ");
+                        String fechaStr = sc.nextLine();
+                        LocalDate fechaDev = LocalDate.parse(fechaStr);
+
+                        double multa = bibliotecaService.registrarDevolucionConFecha(iDev, fechaDev);
                         System.out.println("✅ Devolución procesada.");
                         if (multa > 0)
                             System.out.println("⚠️ Multa a cobrar: $" + multa);
+                        else
+                            System.out.println("✅ Sin multa. Devolución a tiempo.");
                         break;
 
                     case 5:
