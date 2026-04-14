@@ -7,6 +7,9 @@ public class Estudiante {
     private String carrera;
     private String email;
 
+    public Estudiante() {
+    }
+
     public Estudiante(String legajo, String nombre, String carrera, String email) {
         this.legajo = legajo;
         this.nombre = nombre;
