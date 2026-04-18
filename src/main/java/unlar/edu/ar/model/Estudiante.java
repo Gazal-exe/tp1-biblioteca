@@ -52,8 +52,8 @@ public class Estudiante {
     @Override
     public String toString() {
         return "Estudiante{" +
-                "legajo='" + legajo + '\'' +
-                "nombre='" + nombre + '\'' +
+                ", legajo='" + legajo + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", carrera='" + carrera + '\'' +
                 ", email='" + email + '\'' +
                 '}';
