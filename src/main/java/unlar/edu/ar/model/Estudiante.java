@@ -7,6 +7,9 @@ public class Estudiante {
     private String carrera;
     private String email;
 
+    public Estudiante() {
+    }
+
     public Estudiante(String legajo, String nombre, String carrera, String email) {
         this.legajo = legajo;
         this.nombre = nombre;
@@ -49,8 +52,8 @@ public class Estudiante {
     @Override
     public String toString() {
         return "Estudiante{" +
-                "legajo='" + legajo + '\'' +
-                "nombre='" + nombre + '\'' +
+                ", legajo='" + legajo + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", carrera='" + carrera + '\'' +
                 ", email='" + email + '\'' +
                 '}';
