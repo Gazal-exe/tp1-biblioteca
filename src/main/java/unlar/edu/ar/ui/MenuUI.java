@@ -52,7 +52,7 @@ public class MenuUI {
                         System.out.print("Email: ");
                         String email = sc.nextLine();
                         bibliotecaService.agregarEstudiante(new Estudiante(leg, nom, carrera, email));
-                        System.out.println("✅ Estudiante registrado.");
+                        System.out.println(" Estudiante registrado.");
                         break;
 
                     case 2:
@@ -66,7 +66,7 @@ public class MenuUI {
                         System.out.print("Año: ");
                         int anio = Integer.parseInt(sc.nextLine());
                         bibliotecaService.agregarLibro(new Libro(isbn, titulo, autor, anio, true));
-                        System.out.println("✅ Libro agregado.");
+                        System.out.println(" Libro agregado.");
                         break;
 
                     case 3:
@@ -76,7 +76,7 @@ public class MenuUI {
                         System.out.print("Legajo del alumno: ");
                         String lPres = sc.nextLine();
                         bibliotecaService.registrarPrestamo(iPres, lPres);
-                        System.out.println("✅ Prestamo realizado.");
+                        System.out.println(" Prestamo realizado.");
                         break;
 
                     case 4:
@@ -90,11 +90,11 @@ public class MenuUI {
                         LocalDate fechaDev = LocalDate.parse(fechaStr);
 
                         double multa = bibliotecaService.registrarDevolucionConFecha(iDev, fechaDev);
-                        System.out.println("✅ Devolución procesada.");
+                        System.out.println(" Devolución procesada.");
                         if (multa > 0)
-                            System.out.println("⚠️ Multa a cobrar: $" + multa);
+                            System.out.println(" Multa a cobrar: $" + multa);
                         else
-                            System.out.println("✅ Sin multa. Devolución a tiempo.");
+                            System.out.println(" Sin multa. Devolución a tiempo.");
                         break;
 
                     case 5:
@@ -115,7 +115,13 @@ public class MenuUI {
 
                     case 8:
                         System.out.println("\n--- PRESTAMOS GLOBALES ---");
-                        bibliotecaService.getPrestamosActivos().forEach(System.out::println);
+                        var prestamosActivos = bibliotecaService.getPrestamosActivos();
+
+                        if (!prestamosActivos.isEmpty()) {
+                            prestamosActivos.forEach(System.out::println);
+                        } else {
+                            System.out.println("No hay prestamos activos en este momento.");
+                        }
                         break;
                     case 9:
                         System.out.println("\n--- BUSQUEDA DE LIBROS ---");
@@ -125,9 +131,9 @@ public class MenuUI {
                         List<Libro> resultados = bibliotecaService.buscarLibrosPorTitulo(query);
 
                         if (resultados.isEmpty()) {
-                            System.out.println("❌ No se encontraron libros que coincidan con: " + query);
+                            System.out.println(" No se encontraron libros que coincidan con: " + query);
                         } else {
-                            System.out.println("✅ Resultados encontrados:");
+                            System.out.println(" Resultados encontrados:");
                             resultados.forEach(System.out::println);
                         }
                         break;
@@ -137,10 +143,10 @@ public class MenuUI {
                         break;
 
                     default:
-                        System.out.println("❌ Opcion invalida.");
+                        System.out.println(" Opcion invalida.");
                 }
             } catch (Exception e) {
-                System.out.println("⚠️ Error: " + e.getMessage());
+                System.out.println(" Error: " + e.getMessage());
             }
         }
         sc.close();

@@ -37,39 +37,39 @@ public class Main {
 
         //CASO DE PRUEBA: PRESTAMO EXITOSO
         //se presta un libro disponible a un estudiante registrado.
-        System.out.println("\n--- CASO DE PRUEBA: Préstamo exitoso ---");
+        System.out.println("\n CASO DE PRUEBA 1: Préstamo exitoso");
         try {
             // Juan Perez (111) pide el libro de Java (1001)
             service.registrarPrestamo("1001", "111");
-            System.out.println("✅ Préstamo registrado: ISBN 1001 → Legajo 111");
+            System.out.println("Préstamo registrado: ISBN 1001, Legajo 111");
         } catch (Exception e) {
-            System.out.println("⚠️ Error al cargar el préstamo: " + e.getMessage());
+            System.out.println(" Error al cargar el préstamo: " + e.getMessage());
         }
 
         // 4. CASO DE PRUEBA: LIBRO NO DISPONIBLE
         // Intentamos prestar nuevamente el mismo libro 1001, Esto debe lanzar LibroNoDisponibleException
-        System.out.println("\n--- PRUEBA 2: LIBRO NO DISPONIBLE ---");
+        System.out.println("\n CASO DE PRUEBA 2: LIBRO NO DISPONIBLE");
         try {
             service.registrarPrestamo("1001", "222");
 
             // Si llega aquí, significa que NO lanzó la excepción esperada
             System.out.println("ERROR: no se lanzó la excepción esperada.");
         } catch (LibroNoDisponibleException e) {
-            System.out.println("OK: se capturó LibroNoDisponibleException: " + e.getMessage());
+            System.out.println("BIEN! Se capturó LibroNoDisponibleException: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
         }
 
         // 5. CASO DE PRUEBA: ESTUDIANTE NO ENCONTRADO
         // Intentamos prestar un libro a un legajo inexistente, Esto debe lanzar EstudianteNoEncontradoException
-        System.out.println("\n--- PRUEBA 3: ESTUDIANTE NO ENCONTRADO ---");
+        System.out.println("\n CASO DE PRUEBA 3: ESTUDIANTE NO ENCONTRADO");
         try {
             service.registrarPrestamo("1002", "999");
 
             // Si no falla, entonces la prueba salió mal
             System.out.println("ERROR: no se lanzó la excepción esperada.");
         } catch (EstudianteNoEncontradoException e) {
-            System.out.println("OK: se capturó EstudianteNoEncontradoException: " + e.getMessage());
+            System.out.println("BIEN! Se capturó EstudianteNoEncontradoException: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Error inesperado: " + e.getMessage());
         }
@@ -77,7 +77,7 @@ public class Main {
         // 6. CASO DE PRUEBA: LIMITE DE PRESTAMOS EXCEDIDO
         // A un mismo estudiante le prestamos 3 libros distintos, debe fallar
         // con LimitePrestamosExcedidoException en el cuarto intento
-        System.out.println("\n--- PRUEBA 4: LIMITE DE PRESTAMOS EXCEDIDO ---");
+        System.out.println("\n CASO DE PRUEBA 4: LIMITE DE PRESTAMOS EXCEDIDO");
         try {
             service.registrarPrestamo("1002", "333");
             service.registrarPrestamo("1003", "333");
@@ -97,7 +97,7 @@ public class Main {
         // 7. CASO DE PRUEBA: MULTA POR 15 DIAS DE RETRASO
         // Prestamos un libro y simulamos una devolucion 15 dias despues
         // para comprobar que el metodo recursivo calcula la multa
-        System.out.println("\n--- PRUEBA 5: MULTA POR 15 DIAS ---");
+        System.out.println("\n CASO DE PRUEBA 5: MULTA POR 15 DIAS");
         try {
             // Elegimos un libro que quede disponible para esta prueba
             service.registrarPrestamo("1005", "222");
@@ -108,17 +108,16 @@ public class Main {
             // El metodo devuelve el valor de la multa calculada
             double multa = service.registrarDevolucionConFecha("1005", fechaSimulada);
 
-            System.out.println("📅 Fecha de devolución simulada: " + fechaSimulada);
-            System.out.printf("💰 Multa calculada: $%.2f%n", multa);
+            System.out.println(" Fecha de devolución simulada: " + fechaSimulada);
+            System.out.printf(" Multa calculada: $%.2f%n", multa);
             System.out.println("Cálculo esperado: 15 dias x 1% x $1000");
         } catch (Exception e) {
-            System.out.println("⚠️Error inesperado en cálculo de multa: " + e.getMessage());
+            System.out.println(" Error inesperado en cálculo de multa: " + e.getMessage());
         }
 
-        // Cerramos la sección de pruebas
-        System.out.println("\n========================================");
-        System.out.println("FIN DE PRUEBAS");
-        System.out.println("========================================");
+        System.out.println("\n ---------------------------------------------");
+        System.out.println("\n FIN DE PRUEBAS. Iniciando menú interactivo...");
+        System.out.println("\n ---------------------------------------------");
 
         // Una vez ejecutadas las pruebas, se lanza el menu
         MenuUI menu = new MenuUI(service);

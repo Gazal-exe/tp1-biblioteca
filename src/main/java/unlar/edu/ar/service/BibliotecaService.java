@@ -7,23 +7,45 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ * Centraliza la lógica principal del sistema de biblioteca.
+ * Administra libros, estudiantes, préstamos, devoluciones, búsquedas y multas.
+ */
 public class BibliotecaService {
 
     private ArrayList<Libro> catalogo = new ArrayList<>();
     private HashMap<String, Estudiante> estudiantes = new HashMap<>();
     private HashSet<Prestamo> prestamosActivos = new HashSet<>();
 
-    // Agregar libro
+    /**
+     * Agrega un libro al catálogo de la biblioteca.
+     *
+     * @param libro libro a agregar
+     */
     public void agregarLibro(Libro libro) {
         catalogo.add(libro);
     }
 
-    // Agregar estudiante
+    /**
+     * Registra un estudiante en el sistema.
+     *
+     * @param estudiante estudiante a registrar
+     */
     public void agregarEstudiante(Estudiante estudiante) {
         estudiantes.put(estudiante.getLegajo(), estudiante);
     }
 
-    // Registrar préstamo
+    /**
+     * Registra el préstamo de un libro a un estudiante.
+     * Valida la disponibilidad del libro, la existencia del estudiante
+     * y el límite máximo de préstamos permitidos.
+     *
+     * @param isbn   ISBN del libro a prestar
+     * @param legajo legajo del estudiante
+     * @throws LibroNoDisponibleException       si el libro no existe o no está disponible
+     * @throws EstudianteNoEncontradoException  si el estudiante no está registrado
+     * @throws LimitePrestamosExcedidoException si el estudiante ya tiene 3 préstamos activos
+     */
     public void registrarPrestamo(String isbn, String legajo)
             throws LibroNoDisponibleException,
             EstudianteNoEncontradoException,
